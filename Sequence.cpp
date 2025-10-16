@@ -68,7 +68,7 @@ std::string Sequence::back() const {
     return tail->item;
 }
 
-bool Sequence::empty() const { return true; }
+bool Sequence::empty() const { return numElts == 0; }
 size_t Sequence::size() const { return numElts; }
 
 void Sequence::push_back(std::string item) {
@@ -103,13 +103,12 @@ void Sequence::insert(size_t position, std::string item) {
         throw std::out_of_range("out of bounds");
     }
 
-    SequenceNode* newNode = new SequenceNode(item);
-
     if (position == numElts) {
         push_back(item);
-        delete newNode;
         return;
     }
+
+    SequenceNode* newNode = new SequenceNode(item);
 
     //Go to where insert is needed
     SequenceNode* current = head;
