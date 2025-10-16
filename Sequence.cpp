@@ -133,8 +133,46 @@ void Sequence::erase(size_t position) {
     delete current;
     --numElts;
 }
-void Sequence::erase(size_t position, size_t count) {}
-void Sequence::clear() {}
+void Sequence::erase(size_t position, size_t count) {
+    if (position >= numElts || count == 0 || position + count > numElts) {
+        throw std::out_of_range("out of bounds");
+    }
+
+    SequenceNode* current = head;
+    for (size_t i = 0; i < position; ++i) {
+        current = current->next;
+    }
+
+    for (size_t i = 0; i < count; ++i) {
+        SequenceNode* toDelete = current;
+        current = current->next;
+
+        if (toDelete->prev) {
+            toDelete->prev->next = toDelete->next;
+        } else {
+            head = toDelete->next;
+        }
+
+        if (toDelete->next) {
+            toDelete->next->prev = toDelete->prev;
+        } else {
+            tail = toDelete->prev;
+        }
+        delete toDelete;
+        --numElts;
+    }
+}
+
+void Sequence::clear() {
+    SequenceNode* current = head;
+    while (current) {
+        SequenceNode* next = current->next;
+        delete current;
+        current = next;
+    }
+    head = tail = nullptr;
+    numElts = 0;
+}
 
 std::ostream& operator<<(std::ostream& os, const Sequence& s) {
     os << "<";

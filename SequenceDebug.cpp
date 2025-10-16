@@ -39,6 +39,21 @@ int main() {
     std::cout << "After erase pos 2:  " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;
 
+    seq.push_back("D");
+    seq.push_back("E");
+    seq.push_back("F");
+    seq.push_back("G");
+    seq.push_back("H");
+    std::cout << "After major push_back:  " << seq << std::endl;
+
+    seq.erase(2,3);
+    std::cout << "After erasev2 2,3:  " << seq << std::endl;
+    std::cout << "Size: " << seq.size() << std::endl;
+
+    seq.clear();
+    std::cout << "After clear:  " << seq << std::endl;
+    std::cout << "Size: " << seq.size() << std::endl;
+
     //Error checks
     Sequence seq2(0);
     std::cout << "Size: " << seq2.size() << std::endl;
@@ -47,6 +62,7 @@ int main() {
     //seq2.pop_back();
     //seq2.insert(2,"F");
     //seq2.erase(2);
+    //seq2.erase(2,3);
 
     return 0;
 }
