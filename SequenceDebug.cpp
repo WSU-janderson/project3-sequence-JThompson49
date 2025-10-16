@@ -49,6 +49,13 @@ int main() {
     Sequence copy = seq;
     std::cout << "Deep copy of sequence:  " << seq << std::endl;
 
+    Sequence seq3(3);
+    seq3[0] = "A";
+    seq3[1] = "B";
+
+    seq3 = seq;
+
+    std::cout << "After seq3 = seq:  " << seq3 << std::endl;
 
     seq.erase(2,3);
     std::cout << "After erasev2 2,3:  " << seq << std::endl;

@@ -22,10 +22,23 @@ Sequence::Sequence(const Sequence& s): head(nullptr), tail(nullptr), numElts(0) 
         current = current->next;
     }
 }
-Sequence::~Sequence() {}
-Sequence& Sequence::operator=(const Sequence& s) { return *this; }
+Sequence::~Sequence() {
+    clear();
+}
 
+Sequence& Sequence::operator=(const Sequence& s) {
+    if (this == &s) {
+        return *this;
+    }
+    clear();
 
+    SequenceNode* current = s.head;
+    while (current) {
+        push_back(current->item);
+        current = current->next;
+    }
+    return *this;
+}
 
 std::string& Sequence::operator[](size_t position) {
     if (position >= numElts) {
