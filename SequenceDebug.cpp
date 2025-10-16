@@ -20,14 +20,22 @@ int main() {
 
     std::cout << "Start: " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;
+
     seq.push_back("D");
     std::cout << "After push_back:  " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;
+
     seq.pop_back();
     std::cout << "After pop_back:  " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;
+
     seq.insert(2,"F");
     std::cout << "After F Insert:  " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;
+
+    seq.erase(2);
+    std::cout << "After erase pos 2:  " << seq << std::endl;
+    std::cout << "Size: " << seq.size() << std::endl;
+
     return 0;
 }

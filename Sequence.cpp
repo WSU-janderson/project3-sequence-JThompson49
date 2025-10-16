@@ -99,7 +99,30 @@ void Sequence::insert(size_t position, std::string item) {
     ++numElts;
 }
 
-void Sequence::erase(size_t position) {}
+void Sequence::erase(size_t position) {
+    if (position >= numElts) {
+        throw std::out_of_range("out of bounds");
+    }
+
+    SequenceNode* current = head;
+    for (size_t i = 0; i < position; ++i) {
+        current = current->next;
+    }
+
+    if (current->prev) {
+        current->prev->next = current->next;
+    } else {
+        head = current->next;  // Erase head
+    }
+
+    if (current->next) {
+        current->next->prev = current->prev;
+    } else {
+        tail = current->prev;  // Erase tail
+    }
+    delete current;
+    --numElts;
+}
 void Sequence::erase(size_t position, size_t count) {}
 void Sequence::clear() {}
 
