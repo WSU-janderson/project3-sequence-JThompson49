@@ -21,5 +21,7 @@ int main() {
     std::cout << "Start: " << seq << std::endl;
     seq.push_back("D");
     std::cout << "After push_back:  " << seq << std::endl;
+    seq.pop_back();
+    std::cout << "After pop_back:  " << seq << std::endl;
     return 0;
 }

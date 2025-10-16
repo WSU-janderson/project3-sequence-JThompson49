@@ -54,8 +54,19 @@ void Sequence::push_back(std::string item) {
     ++numElts;
 }
 
+void Sequence::pop_back() {
+    if (!tail) return;  // Empty
+    SequenceNode* toDelete = tail;
 
-void Sequence::pop_back() {}
+    if (head == tail) {
+        head = tail = nullptr;
+    } else {
+        tail = tail->prev;
+        tail->next = nullptr;
+    }
+    delete toDelete;
+    --numElts;
+}
 void Sequence::insert(size_t position, std::string item) {}
 void Sequence::erase(size_t position) {}
 void Sequence::erase(size_t position, size_t count) {}
