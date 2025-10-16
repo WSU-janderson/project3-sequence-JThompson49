@@ -46,6 +46,10 @@ int main() {
     seq.push_back("H");
     std::cout << "After major push_back:  " << seq << std::endl;
 
+    Sequence copy = seq;
+    std::cout << "Deep copy of sequence:  " << seq << std::endl;
+
+
     seq.erase(2,3);
     std::cout << "After erasev2 2,3:  " << seq << std::endl;
     std::cout << "Size: " << seq.size() << std::endl;

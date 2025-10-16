@@ -14,7 +14,14 @@ Sequence::Sequence(size_t sz) : head(nullptr), tail(nullptr), numElts(0) {
         ++numElts;
     }
 }
-Sequence::Sequence(const Sequence& s) {}
+//Deep copy
+Sequence::Sequence(const Sequence& s): head(nullptr), tail(nullptr), numElts(0) {
+    SequenceNode* current = s.head;
+    while (current) {
+        push_back(current->item);
+        current = current->next;
+    }
+}
 Sequence::~Sequence() {}
 Sequence& Sequence::operator=(const Sequence& s) { return *this; }
 
