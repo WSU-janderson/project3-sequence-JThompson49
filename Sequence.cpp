@@ -39,7 +39,7 @@ std::string Sequence::front() const { return ""; }
 std::string Sequence::back() const { return ""; }
 
 bool Sequence::empty() const { return true; }
-size_t Sequence::size() const { return 0; }
+size_t Sequence::size() const { return numElts; }
 
 void Sequence::push_back(std::string item) {
     SequenceNode* newNode = new SequenceNode(item);
@@ -67,7 +67,38 @@ void Sequence::pop_back() {
     delete toDelete;
     --numElts;
 }
-void Sequence::insert(size_t position, std::string item) {}
+
+void Sequence::insert(size_t position, std::string item) {
+    if (position > numElts) {
+        throw std::out_of_range("out of bounds");
+    }
+
+    SequenceNode* newNode = new SequenceNode(item);
+
+    if (position == numElts) {
+        push_back(item);
+        delete newNode;
+        return;
+    }
+
+    //Go to where insert is needed
+    SequenceNode* current = head;
+    for (size_t i = 0; i < position; ++i) {
+        current = current->next;
+    }
+
+    newNode->next = current;
+    newNode->prev = current->prev;
+
+    if (current->prev) {
+        current->prev->next = newNode;
+    } else {
+        head = newNode;
+    }
+    current->prev = newNode;
+    ++numElts;
+}
+
 void Sequence::erase(size_t position) {}
 void Sequence::erase(size_t position, size_t count) {}
 void Sequence::clear() {}
