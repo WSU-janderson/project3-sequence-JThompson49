@@ -35,8 +35,18 @@ std::string& Sequence::operator[](size_t position) {
     return current->item;
 
 }
-std::string Sequence::front() const { return ""; }
-std::string Sequence::back() const { return ""; }
+std::string Sequence::front() const {
+    if (!head) {
+        throw std::out_of_range("Empty Sequence");
+    }
+    return head->item;
+}
+std::string Sequence::back() const {
+    if (!tail) {
+        throw std::out_of_range("Empty Sequence");
+    }
+    return tail->item;
+}
 
 bool Sequence::empty() const { return true; }
 size_t Sequence::size() const { return numElts; }
