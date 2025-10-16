@@ -1,8 +1,12 @@
 #include "Sequence.h"
 #include <iostream>
+#include <utility>
 
-
-
+/**
+ * Author: Jack Thompson
+ * Date: 10/15/2025
+ * Course: CS 3100
+ */
 
 /**
  * Sequence(size_t sz)
@@ -12,8 +16,9 @@
  * Side effects: Allocates memory.
  */
 Sequence::Sequence(size_t sz) : head(nullptr), tail(nullptr), numElts(0) {
+    //Creating each node in sequence
     for (size_t i = 0; i < sz; ++i) {
-        SequenceNode* newNode = new SequenceNode("");
+        auto* newNode = new SequenceNode("");
         if (!head) {
             head = tail = newNode;
         } else {
@@ -21,7 +26,7 @@ Sequence::Sequence(size_t sz) : head(nullptr), tail(nullptr), numElts(0) {
             newNode->prev = tail;
             tail = newNode;
         }
-        ++numElts;
+        ++numElts; //increase number of elements
     }
 }
 
@@ -59,14 +64,15 @@ Sequence::~Sequence() {
  * Side effects: Deletes nodes and makes new ones.
  */
 Sequence& Sequence::operator=(const Sequence& s) {
+    //If sequence is itself
     if (this == &s) {
         return *this;
     }
-    clear();
+    clear(); //clear sequence for copying
 
     SequenceNode* current = s.head;
     while (current) {
-        push_back(current->item);
+        push_back(current->item); //copy each item
         current = current->next;
     }
     return *this;
@@ -79,7 +85,8 @@ Sequence& Sequence::operator=(const Sequence& s) {
  * Return: Reference of string at that index.
  * Side effects: Throws out_of_range if position is invalid.
  */
-std::string& Sequence::operator[](size_t position) {
+std::string& Sequence::operator[](size_t position) const {
+    //exception
     if (position >= numElts) {
         throw std::out_of_range("out of bounds");
     }
@@ -92,7 +99,6 @@ std::string& Sequence::operator[](size_t position) {
 
     // Returns the reference of the item
     return current->item;
-
 }
 
 /**
@@ -103,6 +109,7 @@ std::string& Sequence::operator[](size_t position) {
  * Side effects: Throws out_of_range if Sequence is empty.
  */
 std::string Sequence::front() const {
+    //exception for empty sequence
     if (!head) {
         throw std::out_of_range("Empty Sequence");
     }
@@ -117,6 +124,7 @@ std::string Sequence::front() const {
  * Side effects: Throws out_of_range if Sequence is empty.
  */
 std::string Sequence::back() const {
+    //exception for empty sequence
     if (!tail) {
         throw std::out_of_range("Empty Sequence");
     }
@@ -130,7 +138,9 @@ std::string Sequence::back() const {
  * Return: True if Sequence is empty, false otherwise.
  * Side effects: None.
  */
-bool Sequence::empty() const { return numElts == 0; }
+bool Sequence::empty() const {
+    return numElts == 0;
+}
 
 /**
  * size() const
@@ -139,7 +149,9 @@ bool Sequence::empty() const { return numElts == 0; }
  * Return: Number of elements.
  * Side effects: None.
  */
-size_t Sequence::size() const { return numElts; }
+size_t Sequence::size() const {
+    return numElts;
+}
 
 /**
  * push_back(std::string item)
@@ -149,10 +161,10 @@ size_t Sequence::size() const { return numElts; }
  * Side effects: Makes a new node and changes tail and numElts.
  */
 void Sequence::push_back(std::string item) {
-    SequenceNode* newNode = new SequenceNode(item);
+    auto* newNode = new SequenceNode(std::move(item));
 
     if (!head) {
-        head = tail = newNode;
+        head = tail = newNode; //checks and sets for empty sequence
     } else {
         tail->next = newNode;
         newNode->prev = tail;
@@ -169,9 +181,14 @@ void Sequence::push_back(std::string item) {
  * Side effects: Deletes the last node and changes tail and numElts.
  */
 void Sequence::pop_back() {
-    if (!tail) return;  // Empty
+    //exception for empty sequence
+    if (!tail) {
+        throw std::out_of_range("Cannot pop_back from an empty Sequence");
+    }
+
     SequenceNode* toDelete = tail;
 
+    //checks to see if sequence is now empty or sets tail
     if (head == tail) {
         head = tail = nullptr;
     } else {
@@ -190,17 +207,19 @@ void Sequence::pop_back() {
  * Side effects: Creates a new node and changes links and numElts.
  * Throws: out_of_range if position is invalid.
  */
-void Sequence::insert(size_t position, std::string item) {
+void Sequence::insert(size_t position, const std::string& item) {
+    //exception if position is out range
     if (position > numElts) {
         throw std::out_of_range("out of bounds");
     }
 
+    //just adding to the back
     if (position == numElts) {
         push_back(item);
         return;
     }
 
-    SequenceNode* newNode = new SequenceNode(item);
+    auto* newNode = new SequenceNode(item);
 
     //Go to where insert is needed
     SequenceNode* current = head;
@@ -211,6 +230,7 @@ void Sequence::insert(size_t position, std::string item) {
     newNode->next = current;
     newNode->prev = current->prev;
 
+    //if node does not have one infront make it head
     if (current->prev) {
         current->prev->next = newNode;
     } else {
@@ -229,6 +249,7 @@ void Sequence::insert(size_t position, std::string item) {
  * Throws: out_of_range if position is invalid.
  */
 void Sequence::erase(size_t position) {
+    //exception if it trys to erase outside how many there are
     if (position >= numElts) {
         throw std::out_of_range("out of bounds");
     }
@@ -262,6 +283,7 @@ void Sequence::erase(size_t position) {
  * Throws: out_of_range if position is invalid.
  */
 void Sequence::erase(size_t position, size_t count) {
+    //exception for outside range, 0 deletes, or if it deletes more than there are elements
     if (position >= numElts || count == 0 || position + count > numElts) {
         throw std::out_of_range("out of bounds");
     }
@@ -271,6 +293,7 @@ void Sequence::erase(size_t position, size_t count) {
         current = current->next;
     }
 
+    //deleting elements equal to count provided
     for (size_t i = 0; i < count; ++i) {
         SequenceNode* toDelete = current;
         current = current->next;
@@ -300,6 +323,8 @@ void Sequence::erase(size_t position, size_t count) {
  */
 void Sequence::clear() {
     SequenceNode* current = head;
+
+    //delete each element
     while (current) {
         SequenceNode* next = current->next;
         delete current;
@@ -318,12 +343,15 @@ void Sequence::clear() {
  */
 std::ostream& operator<<(std::ostream& os, const Sequence& s) {
     os << "<";
+
     SequenceNode* current = s.head;
+    //print each item from sequence
     while (current) {
         os << current->item;
         if (current->next) os << ", ";
         current = current->next;
     }
+
     os << ">";
     return os;
 }

@@ -45,7 +45,7 @@ public:
      // The return value is a reference to the item at index position in the
      // sequence. Throws an exception if the position is outside the bounds
      // of the sequence
-     std::string& operator[](size_t position);
+     std::string& operator[](size_t position) const;
      // The value of item is append to the sequence.
      void push_back(std::string item);
      // The item at the end of the sequence is deleted and size of the sequence is
@@ -55,7 +55,7 @@ public:
      // value of item is inserted at position and the size of sequence is increased
      // by one. Throws an exceptionif the position is outside the bounds of the
      // sequence
-     void insert(size_t position, std::string item);
+     void insert(size_t position, const std::string& item);
      // Returns the first element in the sequence. If the sequence is empty, throw an
      // exception.
      std::string front() const;
